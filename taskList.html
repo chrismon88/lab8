@@ -1,0 +1,42 @@
+<html>
+    <head>
+
+        <script src="https://unpkg.com/vue@next"></script>
+    </head>
+    <body>
+    <h1>Hello Vue loops</h1>
+
+    <!--template vfor to loop over elements of array and set in ul-->
+    <div id="app">
+        <label for="task">Please enter your to do task:</label>
+        <input id="task" v-model="newTask">
+        <button v-on:click="addTask">Add Task</button>
+        <ul>
+            <li v-for="task in taskList">{{task}}</li>
+        </ul>
+
+    </div>
+
+    <script>
+        let app =  Vue.createApp({
+            data() {
+                return {
+                    newTask:'',
+                    taskList:[] //empty array
+                }
+            },
+            // at first had typo 'method' and task would not add to array after
+            // viewing closely noticed it was 'methods'
+            methods:{
+                addTask() {
+                    this.taskList.push(this.newTask)
+                    this.newTask = ''
+
+                }
+            }
+
+        })
+    app.mount('#app')
+</script>
+</body>
+</html>

@@ -1,32 +1,42 @@
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<html>
+<head>
+<script src="https://unpkg.com/vue@next"></script>
+</head>
 
+<body>
+    <div id = "app">
 
-<div id = "app">
+        <h1>Hello Vue Forms!</h1>
 
-    <h1>Hello Vue!</h1>
-
-    <label for="name">Please enter your name:</label>
-    <input v-model="name" id = "name">
-    <!-- divs will control what is rendered-->
-    <div v-if="name">
-        <p>
-            Thank you, your name  is {{name}}
-        </p>
-    </div>
-
-        <button v-on:click="clear">Clear Input</button>
+        <label for="name">Please enter your name:</label>
+        <input v-model="name" id = "name">
+        <div v-if="name">
+            Your name is {{name}}
+            <button v-on:click="clear">Clear Input</button>
+        </div>
         <div v-else>
-            <p>Waiting on data to be entered.</p>
-            <div/>
+            Waiting on user input.
+        </div>
+
+    </div>
+    <!-- divs will control what is rendered-->
 
 
-</div>
         <script>
 
-            let app = new Vue({
-                el: '#app',
-                data: {
-                    name: ''
+            let app = Vue.createApp({
+                data() {
+                    return {
+                        name: '' // create empty string
+                    }
+                },
+                methods:{
+                    clear(){
+                        this.name=''
+                    }
                 }
             })
+            app.mount('#app')
         </script>
+    </body>
+</html>

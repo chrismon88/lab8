@@ -1,60 +1,85 @@
+<html>
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Cart</title>
+    <script src="https://unpkg.com/vue@next"></script>
+
     <style>
-        td, rh {
+        td, th {
             width: 25%;
             text-align: center;
         }
+        .error-message{
+            color: crimson;
+        }
     </style>
 </head>
+<body>
+    <div id="app">
 
-<div id="app">
+        <h1> Shopping Cart</h1>
 
-    <h1> Example Shopping Cart</h1>
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Unit Price</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+            </tr>
 
-    <table>
-        <tr>
-            <th>Item</th>
-            <th>Unit Price</th>
-            <th>Quantity</th>
-            <th>Total Price</th>
-        </tr>
+            <tr>
+                <td>{{ name }}</td>
+                <td>{{ unitPrice }}</td>
+                <td>
+                    <input type="number" id="quantity" v-model="quantity">
+                    <div class="error-message" v-if="quantityError">{{quantityError}}</div>
+                </td>
+                <td>
 
-        <tr>
-            <td>{{ name }}</td>
-            <td>{{ unitPrice }}</td>
-            <td>
-                <input type="number" id="quantity" v-model="quantity">
-            </td>
-            <td>{{ total | dPlaces(2) }}</td>
+                <!-- display total if no errors-->
+                <div v-if="quantityError">
+                Invalid quantity
+                </div>
+                <div v-else>
+                    ${{total}}
+                </div>
+                </td>
         </tr>
     </table>
 
 </div>
 
 <script>
-    let app = new Vue({
-        el:  '#app',
-        data: {
-            name: 'Hat',
-            quantity: 1,
-            unitPrice: 4.69
-        },
-        computed:{
-            total: function (){
-                let totalPrice = this.quantity * this.unitPrice
-                return totalPrice
-
+    let app =  Vue.createApp({
+        data() {
+            return {
+                name: 'Hat',
+                quantity: 1,
+                unitPrice: 4.69,
+                quantityMax:25,
+                quantityError: ''
             }
         },
-        filters:{
-            dPlaces: function (price, numberOfdecimalPlaces) {
-                let formattedPrice = price.toFixed(numberOfdecimalPlaces)
+        computed:{
+            total () {
+                if (!Number.isInteger(this.quantity)) {
+                    this.quantityError = 'Quantity must be a number'
+                }
+                else if(this.quality<0 || this.quantity> this.quantityMax) {
+                    this.quantityError = 'Quantity must be between 0 and 25'
+                }
+                // clear error if quantity is valid
+                else{
+                    this.quantityError=''
+                  //compute price
+                let totalPrice = this.quantity * this.unitPrice
+                let formattedPrice = totalPrice.toFixed(2)
                 return formattedPrice
+                }
             }
         }
 
     })
-
-
-</script>
+    app.mount('#app')
+        </script>
+    </body>
+</html>

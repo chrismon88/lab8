@@ -1,46 +1,57 @@
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<html>
+    <head>
+        <script src="https://unpkg.com/vue@next"></script>
+    </head>
 
-<div id="app">
-    <h1>Hello Vue!</h1>
-    <p>{{ message | uppercase }}</p>
+    <body>
+        <div id="app">
+            <h1>Hello Vue!</h1>
+            <p>Original message: {{ message }}</p>
+            <p>Added Exclamation points: {{ messageWithExclamation}}</p>
 
-    <p>This class is ITEC {{classCode}}, {{className}}. </p>
+            <button v-on:click="addExclamation"> Add !</button>
+            <button v-on:click="clear"> Clear Exclamation Points </button>
 
-    <button v-on:click="addExclamation"> Add !</button>
-    <button v-on:click="clear"> Clear Exclamation Points </button>
+        </div>
+        <!-- Everything that vue will manage goes below-->
+        <script>
+            let app = Vue.createApp({
+                data() {
+                    return {
+                        message: "Hello world",
+                        numberOfExclamationPoints: 0
+                    }
+                },
+                methods: {
+                    addExclamation() {
+                        if (this.numberOfExclamationPoints < 10) {
+                            this.numberOfExclamationPoints++
+                        } else {
+                            alert("No more exclamation points!!")
+                        }
+                },
+                    clear() {
 
-</div>
+                        this.numberOfExclamationPoints =0
+                    }
+                },
 
-<script>
-    let app = new Vue({
-        el: '#app',
-        data: {
-            message: "Welcome Web Students!",
-            className: "Web Client Server" ,
-            classCode: 2560
-            numberOfExclamationPoints: 1
-        },
-        methods: {
-            addExclamation: function() {
-                if (this.numberOfExclamationPoints < 10) {
-                    this.message = this.message + "!"
-                    this.numberOfExclamationPoints++
-                } else {
-                    alert("NO more exclamation points!!")
+                computed: {
+                messageWithExclamation(){
+
+                    let messageWithPoints = this.message
+                    for (let x = 0; x < this.numberOfExclamationPoints; x++) {
+                        messageWithPoints = messageWithPoints + "!"
+                    }
+                    return messageWithPoints
+                    }
                 }
+            })
+            app.mount('#app')
 
-            },
-            clear: function() {
-                this.message = "Welcome Web Students!"
-                this.numberOfExclamationPoints =1
-            }
-        },
-        filters: {
-            uppercase: function (string) {
-                return string.toUpperCase()
-            }
-        }
-    })
-</script>
+        </script>
+    </body>
+</html>
+
 
 
